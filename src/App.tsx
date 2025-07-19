@@ -1,5 +1,6 @@
 import { useState } from "react";
 import JobAddModal from "./components/modals/JobAddModal";
+import Navbar from "./components/navbar/Navbar";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,7 @@ function App() {
 
   return (
     <div>
+      <Navbar />
       <div>
         <button onClick={handleModalOpen}>Add job</button>
       </div>

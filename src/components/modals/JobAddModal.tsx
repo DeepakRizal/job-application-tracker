@@ -1,9 +1,9 @@
+import { X } from "lucide-react";
+
 interface JobAddModalProps {
   open: boolean;
   onClose: (value: boolean) => void;
 }
-
-import { X } from "lucide-react";
 const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
   function handleClose() {
     onClose(false);
