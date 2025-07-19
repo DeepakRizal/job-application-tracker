@@ -14,7 +14,10 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
       {open && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-gray-100 relative px-8 py-5 rounded-md w-[400px]">
-            <button onClick={handleClose} className="absolute top-4 right-4">
+            <button
+              onClick={handleClose}
+              className="absolute cursor-pointer top-4 right-4"
+            >
               <X />
             </button>
             <h1 className="text-gray-800 font-bold text-center text-2xl">
