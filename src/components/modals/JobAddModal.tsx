@@ -1,11 +1,45 @@
 import { X } from "lucide-react";
+import type React from "react";
+import { useState } from "react";
+import type { JobApplicationList, JobApplication } from "../../types/type";
 
 interface JobAddModalProps {
   open: boolean;
   onClose: (value: boolean) => void;
+  onAddJob: React.Dispatch<React.SetStateAction<JobApplicationList>>;
 }
-const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
+const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
+  const [formData, setFormData] = useState<JobApplication>({
+    company: "",
+    location: "",
+    salaryRange: "",
+    status: "",
+    appliedDate: "",
+    jobDescription: "",
+    notes: "",
+  });
+
   function handleClose() {
+    onClose(false);
+  }
+
+  function handleChange(value: string, identifier: string) {
+    setFormData((prevData) => ({ ...prevData, [identifier]: value }));
+  }
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    onAddJob((prevJobs: JobApplicationList) => [...prevJobs, formData]);
+    setFormData({
+      company: "",
+      location: "",
+      salaryRange: "",
+      status: "",
+      appliedDate: "",
+      jobDescription: "",
+      notes: "",
+    });
+
     onClose(false);
   }
 
@@ -24,13 +58,21 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
               Add Your Job
             </h1>
 
-            <form className="space-y-1 md:space-y-3 mt-4">
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-1 md:space-y-3 mt-4"
+            >
               <div className="flex flex-col space-y-1">
                 <label htmlFor="company">Company:</label>
                 <input
                   type="text"
                   id="company"
                   placeholder="Enter the company name"
+                  name="company"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange(e.target.value, e.target.name)
+                  }
+                  value={formData.company}
                   className=" border px-1 border-gray-400 rounded-sm outline-none"
                 />
               </div>
@@ -40,6 +82,11 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
                   type="text"
                   id="location"
                   placeholder="Enter your location"
+                  name="location"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange(e.target.value, e.target.name)
+                  }
+                  value={formData.location}
                   className=" border px-1 border-gray-400 rounded-sm outline-none"
                 />
               </div>
@@ -49,6 +96,11 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
                   type="text"
                   id="salary"
                   className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  name="salaryRange"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange(e.target.value, e.target.name)
+                  }
+                  value={formData.salaryRange}
                 />
               </div>
               <div className="flex flex-col space-y-1">
@@ -56,6 +108,11 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
                 <select
                   id="status"
                   className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  name="status"
+                  value={formData.status}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    handleChange(e.target.value, e.target.name)
+                  }
                 >
                   <option value="applied">Applied</option>
                   <option value="interview">Interview</option>
@@ -70,6 +127,11 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
                   type="date"
                   id="appliedDate"
                   className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  name="appliedDate"
+                  value={formData.appliedDate}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange(e.target.value, e.target.name)
+                  }
                 />
               </div>
               <div className="flex flex-col space-y-1">
@@ -77,6 +139,11 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
                 <textarea
                   id="jobDescription"
                   className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  name="jobDescription"
+                  value={formData.jobDescription}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    handleChange(e.target.value, e.target.name)
+                  }
                 />
               </div>
               <div className="flex flex-col space-y-1">
@@ -86,6 +153,11 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
                   id="notes"
                   placeholder="Enter where you have applied from"
                   className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  name="notes"
+                  value={formData.notes}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange(e.target.value, e.target.name)
+                  }
                 />
               </div>
               <div className="flex items-center justify-center">

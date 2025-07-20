@@ -2,9 +2,13 @@ import { useState } from "react";
 import JobAddModal from "./components/modals/JobAddModal";
 import Navbar from "./components/navbar/Navbar";
 import { Plus } from "lucide-react";
+import type { JobApplicationList } from "./types/type";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [appliedJobs, setApplyJobs] = useState<JobApplicationList>([]);
+
+  console.log(appliedJobs);
 
   function handleModalOpen() {
     setIsOpen(!isOpen);
@@ -46,7 +50,13 @@ function App() {
           </div>
         </div>
       </div>
-      {isOpen && <JobAddModal open={isOpen} onClose={setIsOpen} />}
+      {isOpen && (
+        <JobAddModal
+          onAddJob={setApplyJobs}
+          open={isOpen}
+          onClose={setIsOpen}
+        />
+      )}
     </div>
   );
 }
