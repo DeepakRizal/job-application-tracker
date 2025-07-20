@@ -13,7 +13,7 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
     <>
       {open && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-gray-100 relative px-8 py-5 rounded-md w-[400px]">
+          <div className="bg-gray-100 max-h-screen overflow-y-auto mx-5 md:mx-0 relative px-8 py-2 md:py-5 rounded-md w-[95%] md:w-[450px] ">
             <button
               onClick={handleClose}
               className="absolute cursor-pointer top-4 right-4"
@@ -24,7 +24,7 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
               Add Your Job
             </h1>
 
-            <form className="space-y-3 mt-4">
+            <form className="space-y-1 md:space-y-3 mt-4">
               <div className="flex flex-col space-y-1">
                 <label htmlFor="company">Company:</label>
                 <input
@@ -88,7 +88,7 @@ const JobAddModal = ({ open, onClose }: JobAddModalProps) => {
                   className=" border px-1 border-gray-400 rounded-sm outline-none"
                 />
               </div>
-              <div>
+              <div className="flex items-center justify-center">
                 <button className="px-4 py-1  bg-green-700 text-white text-sm rounded-sm">
                   Sumit
                 </button>
