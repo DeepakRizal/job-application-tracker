@@ -25,7 +25,7 @@ function App() {
   }
 
   function handleDelete(id: string) {
-    console.log(id);
+    setApplyJobs((prevJobs) => prevJobs.filter((job) => job.id !== id));
   }
 
   function handleModalOpen() {
