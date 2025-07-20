@@ -10,6 +10,8 @@ interface JobAddModalProps {
 }
 const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
   const [formData, setFormData] = useState<JobApplication>({
+    id: JSON.stringify(Date.now()),
+    title: "",
     company: "",
     location: "",
     salaryRange: "",
@@ -31,6 +33,8 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
     e.preventDefault();
     onAddJob((prevJobs: JobApplicationList) => [...prevJobs, formData]);
     setFormData({
+      id: "",
+      title: "",
       company: "",
       location: "",
       salaryRange: "",
@@ -62,6 +66,20 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
               onSubmit={handleSubmit}
               className="space-y-1 md:space-y-3 mt-4"
             >
+              <div className="flex flex-col space-y-1">
+                <label htmlFor="company">Title:</label>
+                <input
+                  type="text"
+                  id="title"
+                  placeholder="Enter the company name"
+                  name="title"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleChange(e.target.value, e.target.name)
+                  }
+                  value={formData.title}
+                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                />
+              </div>
               <div className="flex flex-col space-y-1">
                 <label htmlFor="company">Company:</label>
                 <input

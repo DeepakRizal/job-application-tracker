@@ -1,4 +1,6 @@
 export interface JobApplication {
+  id: string;
+  title: string;
   company: string;
   location: string;
   salaryRange: string;

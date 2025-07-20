@@ -3,12 +3,11 @@ import JobAddModal from "./components/modals/JobAddModal";
 import Navbar from "./components/navbar/Navbar";
 import { Plus } from "lucide-react";
 import type { JobApplicationList } from "./types/type";
+import JobCard from "./components/jobs/JobCard";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [appliedJobs, setApplyJobs] = useState<JobApplicationList>([]);
-
-  console.log(appliedJobs);
 
   function handleModalOpen() {
     setIsOpen(!isOpen);
@@ -57,6 +56,27 @@ function App() {
           onClose={setIsOpen}
         />
       )}
+
+      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-10">
+        {appliedJobs.length > 0 &&
+          appliedJobs.map((job) => {
+            return (
+              <JobCard
+                title={job.title}
+                description={job.jobDescription}
+                salary={job.salaryRange}
+                date={job.appliedDate}
+                notes={job.notes}
+                status={job.status}
+                company={job.company}
+                location={job.location}
+              />
+            );
+          })}
+      </div>
+      <div className="flex items-center justify-center text-2xl h-[50vh]">
+        {appliedJobs.length === 0 && <p>NO JOBS TO SHOW</p>}
+      </div>
     </div>
   );
 }
