@@ -19,6 +19,7 @@ interface JobCardProps {
   status: string;
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
+  isDelete: (value: boolean) => void;
 }
 
 const JobCard = ({
@@ -33,12 +34,14 @@ const JobCard = ({
   notes,
   onEdit,
   onDelete,
+  isDelete,
 }: JobCardProps) => {
   function handleEditClick() {
     onEdit(id);
   }
 
   function handleDeleteClick() {
+    isDelete(true);
     onDelete(id);
   }
 

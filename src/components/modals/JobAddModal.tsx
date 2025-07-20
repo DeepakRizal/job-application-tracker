@@ -199,7 +199,7 @@ const JobAddModal = ({
                 />
               </div>
               <div className="flex items-center justify-center">
-                <button className="px-6 py-2  bg-green-700 text-white text-sm rounded-sm">
+                <button className="px-10 py-2  bg-green-700 text-white text-sm rounded-sm">
                   {jobToEdit ? "Update" : "Sumit"}
                 </button>
               </div>

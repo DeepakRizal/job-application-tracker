@@ -4,11 +4,14 @@ import Navbar from "./components/navbar/Navbar";
 import { Plus } from "lucide-react";
 import type { JobApplication, JobApplicationList } from "./types/type";
 import JobCard from "./components/jobs/JobCard";
+import DeleteModal from "./components/modals/DeleteModal";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [appliedJobs, setApplyJobs] = useState<JobApplicationList>([]);
   const [editingJob, setEditingJob] = useState<JobApplication | null>(null);
+  const [isDelete, setIsDelete] = useState(false);
+  const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
 
   function handleEdit(id: string) {
     const jobToEdit = appliedJobs.find((job) => job.id === id);
@@ -25,7 +28,7 @@ function App() {
   }
 
   function handleDelete(id: string) {
-    setApplyJobs((prevJobs) => prevJobs.filter((job) => job.id !== id));
+    setDeleteJobId(id);
   }
 
   function handleModalOpen() {
@@ -40,7 +43,7 @@ function App() {
           className="bg-emerald-500 cursor-pointer flex items-center justify-center px-2 md:px-4 py-1 gap-5 md:gap-10 text-white rounded-sm"
           onClick={handleModalOpen}
         >
-          <span className="text-[14px] md:text-lg"> Add job</span>
+          <span className="text-[14px] md:text-lg">Add job</span>
           <Plus />
         </button>
         <div>
@@ -77,6 +80,13 @@ function App() {
           onUpdateJob={handleUpdateJob}
         />
       )}
+      {isDelete && (
+        <DeleteModal
+          id={deleteJobId}
+          onCancel={setIsDelete}
+          onDelete={setApplyJobs}
+        />
+      )}
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-10">
         {appliedJobs.length > 0 &&
@@ -95,6 +105,7 @@ function App() {
                 location={job.location}
                 onEdit={handleEdit}
                 onDelete={handleDelete}
+                isDelete={setIsDelete}
               />
             );
           })}
