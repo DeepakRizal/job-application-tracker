@@ -2,12 +2,31 @@ import { useState } from "react";
 import JobAddModal from "./components/modals/JobAddModal";
 import Navbar from "./components/navbar/Navbar";
 import { Plus } from "lucide-react";
-import type { JobApplicationList } from "./types/type";
+import type { JobApplication, JobApplicationList } from "./types/type";
 import JobCard from "./components/jobs/JobCard";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [appliedJobs, setApplyJobs] = useState<JobApplicationList>([]);
+  const [editingJob, setEditingJob] = useState<JobApplication | null>(null);
+
+  function handleEdit(id: string) {
+    const jobToEdit = appliedJobs.find((job) => job.id === id);
+    if (jobToEdit) {
+      setEditingJob(jobToEdit);
+    }
+    setIsOpen(true);
+  }
+
+  function handleUpdateJob(updatedJob: JobApplication) {
+    setApplyJobs((prevJobs) =>
+      prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
+    );
+  }
+
+  function handleDelete(id: string) {
+    console.log(id);
+  }
 
   function handleModalOpen() {
     setIsOpen(!isOpen);
@@ -54,6 +73,8 @@ function App() {
           onAddJob={setApplyJobs}
           open={isOpen}
           onClose={setIsOpen}
+          jobToEdit={editingJob}
+          onUpdateJob={handleUpdateJob}
         />
       )}
 
@@ -62,6 +83,8 @@ function App() {
           appliedJobs.map((job) => {
             return (
               <JobCard
+                key={job.id}
+                id={job.id}
                 title={job.title}
                 description={job.jobDescription}
                 salary={job.salaryRange}
@@ -70,6 +93,8 @@ function App() {
                 status={job.status}
                 company={job.company}
                 location={job.location}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
               />
             );
           })}

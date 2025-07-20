@@ -1,14 +1,22 @@
 import { X } from "lucide-react";
 import type React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { JobApplicationList, JobApplication } from "../../types/type";
 
 interface JobAddModalProps {
   open: boolean;
   onClose: (value: boolean) => void;
   onAddJob: React.Dispatch<React.SetStateAction<JobApplicationList>>;
+  jobToEdit?: JobApplication | null;
+  onUpdateJob?: (value: JobApplication) => void;
 }
-const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
+const JobAddModal = ({
+  open,
+  onClose,
+  onAddJob,
+  jobToEdit,
+  onUpdateJob,
+}: JobAddModalProps) => {
   const [formData, setFormData] = useState<JobApplication>({
     id: JSON.stringify(Date.now()),
     title: "",
@@ -31,7 +39,13 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    onAddJob((prevJobs: JobApplicationList) => [...prevJobs, formData]);
+    if (jobToEdit) {
+      if (onUpdateJob) {
+        onUpdateJob(formData);
+      }
+    } else {
+      onAddJob((prevJobs: JobApplicationList) => [...prevJobs, formData]);
+    }
     setFormData({
       id: "",
       title: "",
@@ -47,11 +61,17 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
     onClose(false);
   }
 
+  useEffect(() => {
+    if (jobToEdit) {
+      setFormData(jobToEdit);
+    }
+  }, [jobToEdit]);
+
   return (
     <>
       {open && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
-          <div className="bg-gray-100 max-h-screen overflow-y-auto mx-5 md:mx-0 relative px-8 py-2 md:py-5 rounded-md w-[95%] md:w-[450px] ">
+          <div className="bg-gray-100 max-h-[90vh]  overflow-y-auto mx-5 md:mx-0 relative px-8 py-2 md:py-5 rounded-md w-[95%] md:w-[450px] ">
             <button
               onClick={handleClose}
               className="absolute cursor-pointer top-4 right-4"
@@ -77,7 +97,7 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
                     handleChange(e.target.value, e.target.name)
                   }
                   value={formData.title}
-                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                 />
               </div>
               <div className="flex flex-col space-y-1">
@@ -91,7 +111,7 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
                     handleChange(e.target.value, e.target.name)
                   }
                   value={formData.company}
-                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                 />
               </div>
               <div className="flex flex-col space-y-1">
@@ -105,7 +125,7 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
                     handleChange(e.target.value, e.target.name)
                   }
                   value={formData.location}
-                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                 />
               </div>
               <div className="flex flex-col space-y-1">
@@ -113,7 +133,7 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
                 <input
                   type="text"
                   id="salary"
-                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                   name="salaryRange"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                     handleChange(e.target.value, e.target.name)
@@ -144,7 +164,7 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
                 <input
                   type="date"
                   id="appliedDate"
-                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                   name="appliedDate"
                   value={formData.appliedDate}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -156,7 +176,7 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
                 <label htmlFor="jobDescription">Job Description:</label>
                 <textarea
                   id="jobDescription"
-                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  className=" border px-1  py-2 border-gray-400 rounded-sm outline-none"
                   name="jobDescription"
                   value={formData.jobDescription}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
@@ -170,7 +190,7 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
                   type="text"
                   id="notes"
                   placeholder="Enter where you have applied from"
-                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                   name="notes"
                   value={formData.notes}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -179,8 +199,8 @@ const JobAddModal = ({ open, onClose, onAddJob }: JobAddModalProps) => {
                 />
               </div>
               <div className="flex items-center justify-center">
-                <button className="px-4 py-1  bg-green-700 text-white text-sm rounded-sm">
-                  Sumit
+                <button className="px-6 py-2  bg-green-700 text-white text-sm rounded-sm">
+                  {jobToEdit ? "Update" : "Sumit"}
                 </button>
               </div>
             </form>

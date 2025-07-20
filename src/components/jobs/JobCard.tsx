@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 interface JobCardProps {
+  id: string;
   title: string;
   company: string;
   location: string;
@@ -16,9 +17,12 @@ interface JobCardProps {
   description: string;
   notes: string;
   status: string;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 }
 
 const JobCard = ({
+  id,
   title,
   company,
   location,
@@ -27,7 +31,17 @@ const JobCard = ({
   date,
   description,
   notes,
+  onEdit,
+  onDelete,
 }: JobCardProps) => {
+  function handleEditClick() {
+    onEdit(id);
+  }
+
+  function handleDeleteClick() {
+    onDelete(id);
+  }
+
   return (
     <div className="flex border border-gray-300 shadow-md rounded-md justify-between  items-start px-5 py-8">
       <div className="space-y-2">
@@ -61,10 +75,10 @@ const JobCard = ({
 
       <div className="flex items-center gap-6">
         <p>{status}</p>
-        <button>
+        <button onClick={handleEditClick}>
           <Edit />
         </button>
-        <button>
+        <button onClick={handleDeleteClick}>
           <Trash2 />
         </button>
       </div>
