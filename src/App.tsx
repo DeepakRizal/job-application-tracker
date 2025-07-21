@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import JobAddModal from "./components/modals/JobAddModal";
 import Navbar from "./components/navbar/Navbar";
 import { Plus } from "lucide-react";
@@ -8,10 +8,17 @@ import DeleteModal from "./components/modals/DeleteModal";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
-  const [appliedJobs, setApplyJobs] = useState<JobApplicationList>([]);
+  const [appliedJobs, setApplyJobs] = useState<JobApplicationList>(() => {
+    const jobs = JSON.parse(localStorage.getItem("appliedJobs") || "[]");
+    return jobs;
+  });
   const [editingJob, setEditingJob] = useState<JobApplication | null>(null);
   const [isDelete, setIsDelete] = useState(false);
   const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
+
+  useEffect(() => {
+    localStorage.setItem("appliedJobs", JSON.stringify(appliedJobs));
+  }, [appliedJobs]);
 
   function handleEdit(id: string) {
     const jobToEdit = appliedJobs.find((job) => job.id === id);
