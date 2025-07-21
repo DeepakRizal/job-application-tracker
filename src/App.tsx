@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import JobAddModal from "./components/modals/JobAddModal";
 import Navbar from "./components/navbar/Navbar";
 import { Plus } from "lucide-react";
@@ -15,6 +15,11 @@ function App() {
   const [editingJob, setEditingJob] = useState<JobApplication | null>(null);
   const [isDelete, setIsDelete] = useState(false);
   const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+
+  const filteredJobs = statusFilter
+    ? appliedJobs.filter((job) => job.status === statusFilter)
+    : appliedJobs;
 
   useEffect(() => {
     localStorage.setItem("appliedJobs", JSON.stringify(appliedJobs));
@@ -42,6 +47,10 @@ function App() {
     setIsOpen(!isOpen);
   }
 
+  function handleStatusChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setStatusFilter(e.target.value);
+  }
+
   return (
     <div>
       <Navbar />
@@ -54,26 +63,18 @@ function App() {
           <Plus />
         </button>
         <div>
-          <div className="flex gap-2 md:gap-5">
+          <div>
             <select
               className="border font-poppin py-0 px-1  md:py-1 md:px-3 rounded-sm border-gray-400"
               name="all-status"
               id="all-status"
+              onChange={handleStatusChange}
             >
+              <option value="">Select Filter</option>
               <option value="applied">Applied</option>
               <option value="interview">Interview</option>
               <option value="offer">Offer</option>
               <option value="withdrawn">Withdrawn</option>
-            </select>
-            <select
-              className="border font-poppin py-0 px-1  md:py-1 md:px-3 rounded-sm border-gray-400"
-              name="dateApplied"
-              id="dateApplied"
-            >
-              <option value="dateApplied">Date Applied</option>
-              <option value="jobTitle">Job Title</option>
-              <option value="company">Company</option>
-              <option value="status">Status</option>
             </select>
           </div>
         </div>
@@ -96,8 +97,8 @@ function App() {
       )}
 
       <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-10">
-        {appliedJobs.length > 0 &&
-          appliedJobs.map((job) => {
+        {filteredJobs.length > 0 &&
+          filteredJobs.map((job) => {
             return (
               <JobCard
                 key={job.id}

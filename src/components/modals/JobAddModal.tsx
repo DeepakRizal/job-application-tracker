@@ -23,7 +23,7 @@ const JobAddModal = ({
     company: "",
     location: "",
     salaryRange: "",
-    status: "",
+    status: "applied",
     appliedDate: "",
     jobDescription: "",
     notes: "",
@@ -145,7 +145,7 @@ const JobAddModal = ({
                 <label htmlFor="status">Status:</label>
                 <select
                   id="status"
-                  className=" border px-1 border-gray-400 rounded-sm outline-none"
+                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                   name="status"
                   value={formData.status}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -156,7 +156,7 @@ const JobAddModal = ({
                   <option value="interview">Interview</option>
                   <option value="offer">Offer</option>
                   <option value="rejected">Rejected</option>
-                  <option value="withrawn">Withdrawn</option>
+                  <option value="withdrawn">Withdrawn</option>
                 </select>
               </div>
               <div className="flex flex-col space-y-1">
