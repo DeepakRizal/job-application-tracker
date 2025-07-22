@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";
 import type { JobApplicationList, JobApplication } from "../../types/type";
-import ErrorMessage from "../ErrorMessage";
+import FormInputField from "../ui/FormInputField";
 
 interface JobAddModalProps {
   open: boolean;
@@ -112,65 +112,42 @@ const JobAddModal = ({
               onSubmit={handleSubmit}
               className="space-y-1 md:space-y-3 mt-4"
             >
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="company">Title:</label>
-                <input
-                  type="text"
-                  id="title"
-                  placeholder="Enter the company name"
-                  name="title"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange(e.target.value, e.target.name)
-                  }
-                  value={formData.title}
-                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
-                />
-                <ErrorMessage errorMessage={errors.title} />
-              </div>
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="company">Company:</label>
-                <input
-                  type="text"
-                  id="company"
-                  placeholder="Enter the company name"
-                  name="company"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange(e.target.value, e.target.name)
-                  }
-                  value={formData.company}
-                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
-                />
-                <ErrorMessage errorMessage={errors.company} />
-              </div>
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="location">Location:</label>
-                <input
-                  type="text"
-                  id="location"
-                  placeholder="Enter your location"
-                  name="location"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange(e.target.value, e.target.name)
-                  }
-                  value={formData.location}
-                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
-                />
-                <ErrorMessage errorMessage={errors.location} />
-              </div>
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="salary">Salary Range:</label>
-                <input
-                  type="text"
-                  id="salary"
-                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
-                  name="salaryRange"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange(e.target.value, e.target.name)
-                  }
-                  value={formData.salaryRange}
-                />
-                <ErrorMessage errorMessage={errors.salaryRange} />
-              </div>
+              <FormInputField
+                labelText="Title:"
+                id="title"
+                placeholder="Enter your job title"
+                name="title"
+                onHandleChange={handleChange}
+                value={formData.title}
+                errorMessage={errors.title}
+              />
+              <FormInputField
+                labelText="Company:"
+                id="company"
+                placeholder="Enter the company name"
+                name="company"
+                onHandleChange={handleChange}
+                value={formData.company}
+                errorMessage={errors.company}
+              />
+              <FormInputField
+                labelText="Location:"
+                id="location"
+                placeholder="Enter your location"
+                name="location"
+                onHandleChange={handleChange}
+                value={formData.location}
+                errorMessage={errors.location}
+              />
+              <FormInputField
+                labelText="Salary Range:"
+                id="salary"
+                placeholder="Enter the salary or salary range"
+                name="salaryRange"
+                onHandleChange={handleChange}
+                value={formData.salaryRange}
+                errorMessage={errors.salaryRange}
+              />
               <div className="flex flex-col space-y-1">
                 <label htmlFor="status">Status:</label>
                 <select
@@ -189,48 +166,33 @@ const JobAddModal = ({
                   <option value="withdrawn">Withdrawn</option>
                 </select>
               </div>
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="appliedDate">Applied Date:</label>
-                <input
-                  type="date"
-                  id="appliedDate"
-                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
-                  name="appliedDate"
-                  value={formData.appliedDate}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange(e.target.value, e.target.name)
-                  }
-                />
-                <ErrorMessage errorMessage={errors.appliedDate} />
-              </div>
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="jobDescription">Job Description:</label>
-                <textarea
-                  id="jobDescription"
-                  className=" border px-1  py-2 border-gray-400 rounded-sm outline-none"
-                  name="jobDescription"
-                  value={formData.jobDescription}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                    handleChange(e.target.value, e.target.name)
-                  }
-                />
-                <ErrorMessage errorMessage={errors.jobDescription} />
-              </div>
-              <div className="flex flex-col space-y-1">
-                <label htmlFor="notes">Notes:</label>
-                <input
-                  type="text"
-                  id="notes"
-                  placeholder="Enter where you have applied from"
-                  className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
-                  name="notes"
-                  value={formData.notes}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    handleChange(e.target.value, e.target.name)
-                  }
-                />
-                <ErrorMessage errorMessage={errors.notes} />
-              </div>
+              <FormInputField
+                labelText="Applied Date:"
+                type="date"
+                id="appliedDate"
+                name="appliedDate"
+                onHandleChange={handleChange}
+                value={formData.appliedDate}
+                errorMessage={errors.appliedDate}
+              />
+              <FormInputField
+                labelText="Job Description:"
+                id="jobDescription"
+                name="jobDescription"
+                onHandleChange={handleChange}
+                value={formData.jobDescription}
+                errorMessage={errors.jobDescription}
+                elementText="textarea"
+              />
+              <FormInputField
+                labelText="Notes:"
+                id="notes"
+                name="notes"
+                placeholder="Enter where you have applied from"
+                onHandleChange={handleChange}
+                value={formData.notes}
+                errorMessage={errors.notes}
+              />
               <div className="flex items-center justify-center">
                 <button className="px-10 py-2  bg-green-700 text-white text-sm rounded-sm">
                   {jobToEdit ? "Update" : "Sumit"}
