@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import type React from "react";
 import { useEffect, useState } from "react";
 import type { JobApplicationList, JobApplication } from "../../types/type";
+import ErrorMessage from "../ErrorMessage";
 
 interface JobAddModalProps {
   open: boolean;
@@ -28,6 +29,7 @@ const JobAddModal = ({
     jobDescription: "",
     notes: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   function handleClose() {
     onClose(false);
@@ -37,8 +39,32 @@ const JobAddModal = ({
     setFormData((prevData) => ({ ...prevData, [identifier]: value }));
   }
 
+  function validateFrom(data: JobApplication) {
+    const newErrors: Record<string, string> = {};
+
+    if (!data.title.trim()) newErrors.title = "Title is required!";
+    if (!data.company.trim()) newErrors.company = "Company is required!";
+    if (!data.location.trim()) newErrors.location = "Location is required!";
+    if (!data.salaryRange.trim())
+      newErrors.salaryRange = "Salary range is required!";
+    if (!data.appliedDate.trim())
+      newErrors.appliedDate = "Applied date is required!";
+    if (!data.jobDescription.trim())
+      newErrors.jobDescription = "Job description is required!";
+    if (!data.notes.trim()) newErrors.notes = "Notes is required!";
+
+    return newErrors;
+  }
+
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    const validationErrors = validateFrom(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     if (jobToEdit) {
       if (onUpdateJob) {
         onUpdateJob(formData);
@@ -99,6 +125,7 @@ const JobAddModal = ({
                   value={formData.title}
                   className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                 />
+                <ErrorMessage errorMessage={errors.title} />
               </div>
               <div className="flex flex-col space-y-1">
                 <label htmlFor="company">Company:</label>
@@ -113,6 +140,7 @@ const JobAddModal = ({
                   value={formData.company}
                   className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                 />
+                <ErrorMessage errorMessage={errors.company} />
               </div>
               <div className="flex flex-col space-y-1">
                 <label htmlFor="location">Location:</label>
@@ -127,6 +155,7 @@ const JobAddModal = ({
                   value={formData.location}
                   className=" border px-1 py-2 border-gray-400 rounded-sm outline-none"
                 />
+                <ErrorMessage errorMessage={errors.location} />
               </div>
               <div className="flex flex-col space-y-1">
                 <label htmlFor="salary">Salary Range:</label>
@@ -140,6 +169,7 @@ const JobAddModal = ({
                   }
                   value={formData.salaryRange}
                 />
+                <ErrorMessage errorMessage={errors.salaryRange} />
               </div>
               <div className="flex flex-col space-y-1">
                 <label htmlFor="status">Status:</label>
@@ -171,6 +201,7 @@ const JobAddModal = ({
                     handleChange(e.target.value, e.target.name)
                   }
                 />
+                <ErrorMessage errorMessage={errors.appliedDate} />
               </div>
               <div className="flex flex-col space-y-1">
                 <label htmlFor="jobDescription">Job Description:</label>
@@ -183,6 +214,7 @@ const JobAddModal = ({
                     handleChange(e.target.value, e.target.name)
                   }
                 />
+                <ErrorMessage errorMessage={errors.jobDescription} />
               </div>
               <div className="flex flex-col space-y-1">
                 <label htmlFor="notes">Notes:</label>
@@ -197,6 +229,7 @@ const JobAddModal = ({
                     handleChange(e.target.value, e.target.name)
                   }
                 />
+                <ErrorMessage errorMessage={errors.notes} />
               </div>
               <div className="flex items-center justify-center">
                 <button className="px-10 py-2  bg-green-700 text-white text-sm rounded-sm">
