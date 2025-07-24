@@ -3,8 +3,8 @@ import JobAddModal from "./components/modals/JobAddModal";
 import Navbar from "./components/navbar/Navbar";
 import { Plus } from "lucide-react";
 import type { JobApplication, JobApplicationList } from "./types/type";
-import JobCard from "./components/jobs/JobCard";
 import DeleteModal from "./components/modals/DeleteModal";
+import JobList from "./components/jobs/JobList";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -96,28 +96,12 @@ function App() {
         />
       )}
 
-      <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-10">
-        {filteredJobs.length > 0 &&
-          filteredJobs.map((job) => {
-            return (
-              <JobCard
-                key={job.id}
-                id={job.id}
-                title={job.title}
-                description={job.jobDescription}
-                salary={job.salaryRange}
-                date={job.appliedDate}
-                notes={job.notes}
-                status={job.status}
-                company={job.company}
-                location={job.location}
-                onEdit={handleEdit}
-                onDelete={handleDelete}
-                isDelete={setIsDelete}
-              />
-            );
-          })}
-      </div>
+      <JobList
+        jobs={filteredJobs}
+        onDelete={handleDelete}
+        onEdit={handleEdit}
+        isDelete={setIsDelete}
+      />
       <div className="flex items-center justify-center text-2xl h-[50vh]">
         {appliedJobs.length === 0 && <p>NO JOBS TO SHOW</p>}
       </div>
