@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import JobAddModal from "./components/modals/JobAddModal";
 import Navbar from "./components/navbar/Navbar";
-import { Plus } from "lucide-react";
 import type { JobApplication, JobApplicationList } from "./types/type";
 import DeleteModal from "./components/modals/DeleteModal";
 import JobList from "./components/jobs/JobList";
+import HeaderSection from "./components/HeaderSection";
+import EmptyJobState from "./components/EmptyJobState";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,10 +44,6 @@ function App() {
     setDeleteJobId(id);
   }
 
-  function handleModalOpen() {
-    setIsOpen(!isOpen);
-  }
-
   function handleStatusChange(e: React.ChangeEvent<HTMLSelectElement>) {
     setStatusFilter(e.target.value);
   }
@@ -54,31 +51,11 @@ function App() {
   return (
     <div>
       <Navbar />
-      <div className="mt-5 flex justify-between items-center px-5 md:px-14">
-        <button
-          className="bg-emerald-500 cursor-pointer flex items-center justify-center px-2 md:px-4 py-1 gap-5 md:gap-10 text-white rounded-sm"
-          onClick={handleModalOpen}
-        >
-          <span className="text-[14px] md:text-lg">Add job</span>
-          <Plus />
-        </button>
-        <div>
-          <div>
-            <select
-              className="border font-poppin py-0 px-1  md:py-1 md:px-3 rounded-sm border-gray-400"
-              name="all-status"
-              id="all-status"
-              onChange={handleStatusChange}
-            >
-              <option value="">Select Filter</option>
-              <option value="applied">Applied</option>
-              <option value="interview">Interview</option>
-              <option value="offer">Offer</option>
-              <option value="withdrawn">Withdrawn</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <HeaderSection
+        onModalOpen={setIsOpen}
+        isOpen={isOpen}
+        onStatusChange={handleStatusChange}
+      />
       {isOpen && (
         <JobAddModal
           onAddJob={setApplyJobs}
@@ -102,9 +79,8 @@ function App() {
         onEdit={handleEdit}
         isDelete={setIsDelete}
       />
-      <div className="flex items-center justify-center text-2xl h-[50vh]">
-        {appliedJobs.length === 0 && <p>NO JOBS TO SHOW</p>}
-      </div>
+
+      {appliedJobs.length === 0 && <EmptyJobState />}
     </div>
   );
 }
