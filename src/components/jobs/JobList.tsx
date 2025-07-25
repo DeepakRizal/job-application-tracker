@@ -1,15 +1,12 @@
-import type { JobApplicationList } from "../../types/type";
+import { useJobContext } from "../../hooks/useJobContext";
 import JobCard from "./JobCard";
 
-interface JobListProps {
-  jobs: JobApplicationList;
-}
-
-const JobList = ({ jobs }: JobListProps) => {
+const JobList = () => {
+  const { filteredJobs } = useJobContext();
   return (
     <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-10">
-      {jobs.length > 0 &&
-        jobs.map((job) => {
+      {filteredJobs.length > 0 &&
+        filteredJobs.map((job) => {
           return (
             <JobCard
               key={job.id}

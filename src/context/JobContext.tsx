@@ -16,6 +16,18 @@ export const JobProvider = ({ children }: JobProviderProps) => {
   const [isDelete, setIsDelete] = useState(false);
   const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
 
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+
+  const filteredJobs = statusFilter
+    ? appliedJobs.filter((job) => job.status === statusFilter)
+    : appliedJobs;
+
+  function handleUpdateJob(updatedJob: JobApplication) {
+    setApplyJobs((prevJobs) =>
+      prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
+    );
+  }
+
   function handleEdit(id: string) {
     const jobToEdit = appliedJobs.find((job) => job.id === id);
     if (jobToEdit) {
@@ -42,6 +54,9 @@ export const JobProvider = ({ children }: JobProviderProps) => {
         deleteJobId,
         setDeleteJobId,
         handleEdit,
+        filteredJobs,
+        handleUpdateJob,
+        setStatusFilter,
       }}
     >
       {children}

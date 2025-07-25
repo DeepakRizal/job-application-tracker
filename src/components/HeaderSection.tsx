@@ -2,12 +2,8 @@ import { Plus } from "lucide-react";
 import type React from "react";
 import { useJobContext } from "../hooks/useJobContext";
 
-interface HeaderSectionProps {
-  onStatusChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-}
-
-const HeaderSection = ({ onStatusChange }: HeaderSectionProps) => {
-  const { isOpen, setIsOpen } = useJobContext();
+const HeaderSection = () => {
+  const { isOpen, setIsOpen, setStatusFilter } = useJobContext();
   function handleAddJob() {
     setIsOpen(!isOpen);
   }
@@ -27,7 +23,9 @@ const HeaderSection = ({ onStatusChange }: HeaderSectionProps) => {
             className="border font-poppin py-0 px-1  md:py-1 md:px-3 rounded-sm border-gray-400"
             name="all-status"
             id="all-status"
-            onChange={onStatusChange}
+            onChange={(event: React.ChangeEvent<HTMLSelectElement>) =>
+              setStatusFilter(event.target.value)
+            }
           >
             <option value="">Select Filter</option>
             <option value="applied">Applied</option>

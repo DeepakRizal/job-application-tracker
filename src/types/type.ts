@@ -24,4 +24,7 @@ export interface JobContextType {
   deleteJobId: string | null;
   setDeleteJobId: (value: string) => void;
   handleEdit: (value: string) => void;
+  filteredJobs: JobApplicationList;
+  handleUpdateJob: (value: JobApplication) => void;
+  setStatusFilter: (value: string | null) => void;
 }

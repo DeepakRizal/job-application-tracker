@@ -5,10 +5,7 @@ import type { JobApplicationList, JobApplication } from "../../types/type";
 import FormInputField from "../ui/FormInputField";
 import { useJobContext } from "../../hooks/useJobContext";
 
-interface JobAddModalProps {
-  onUpdateJob?: (value: JobApplication) => void;
-}
-const JobAddModal = ({ onUpdateJob }: JobAddModalProps) => {
+const JobAddModal = () => {
   const { setApplyJobs, editingJob, setEditingJob } = useJobContext();
   const [formData, setFormData] = useState<JobApplication>({
     id: JSON.stringify(Date.now()),
@@ -22,7 +19,7 @@ const JobAddModal = ({ onUpdateJob }: JobAddModalProps) => {
     notes: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const { isOpen, setIsOpen } = useJobContext();
+  const { isOpen, setIsOpen, handleUpdateJob } = useJobContext();
 
   function emptyFormData() {
     setFormData({
@@ -74,8 +71,8 @@ const JobAddModal = ({ onUpdateJob }: JobAddModalProps) => {
     }
 
     if (editingJob) {
-      if (onUpdateJob) {
-        onUpdateJob(formData);
+      if (handleUpdateJob) {
+        handleUpdateJob(formData);
       }
     } else {
       setApplyJobs((prevJobs: JobApplicationList) => [...prevJobs, formData]);
