@@ -1,20 +1,17 @@
-import type React from "react";
-import type { JobApplicationList } from "../../types/type";
+import { useJobContext } from "../../hooks/useJobContext";
 
-interface DeleteModalProps {
-  onDelete: React.Dispatch<React.SetStateAction<JobApplicationList>>;
-  id: string | null;
-  onCancel: (value: boolean) => void;
-}
+const DeleteModal = () => {
+  const { setIsDelete, setApplyJobs, deleteJobId } = useJobContext();
 
-const DeleteModal = ({ onDelete, id, onCancel }: DeleteModalProps) => {
   function handleCancel() {
-    onCancel(false);
+    setIsDelete(false);
   }
 
   function handleDelete() {
-    onDelete((prevData) => prevData.filter((job) => job.id !== id));
-    onCancel(false);
+    setApplyJobs((prevData) =>
+      prevData.filter((job) => job.id !== deleteJobId)
+    );
+    setIsDelete(false);
   }
 
   return (

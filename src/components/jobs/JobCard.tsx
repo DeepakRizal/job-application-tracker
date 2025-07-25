@@ -6,6 +6,7 @@ import {
   Calendar,
   DollarSign,
 } from "lucide-react";
+import { useJobContext } from "../../hooks/useJobContext";
 
 interface JobCardProps {
   id: string;
@@ -17,9 +18,6 @@ interface JobCardProps {
   description: string;
   notes: string;
   status: string;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
-  isDelete: (value: boolean) => void;
 }
 
 const JobCard = ({
@@ -32,17 +30,15 @@ const JobCard = ({
   date,
   description,
   notes,
-  onEdit,
-  onDelete,
-  isDelete,
 }: JobCardProps) => {
+  const { setIsDelete, setDeleteJobId, handleEdit } = useJobContext();
   function handleEditClick() {
-    onEdit(id);
+    handleEdit(id);
   }
 
   function handleDeleteClick() {
-    isDelete(true);
-    onDelete(id);
+    setIsDelete(true);
+    setDeleteJobId(id);
   }
 
   return (

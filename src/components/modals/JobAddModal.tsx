@@ -3,21 +3,13 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import type { JobApplicationList, JobApplication } from "../../types/type";
 import FormInputField from "../ui/FormInputField";
+import { useJobContext } from "../../hooks/useJobContext";
 
 interface JobAddModalProps {
-  open: boolean;
-  onClose: (value: boolean) => void;
-  onAddJob: React.Dispatch<React.SetStateAction<JobApplicationList>>;
-  jobToEdit?: JobApplication | null;
   onUpdateJob?: (value: JobApplication) => void;
 }
-const JobAddModal = ({
-  open,
-  onClose,
-  onAddJob,
-  jobToEdit,
-  onUpdateJob,
-}: JobAddModalProps) => {
+const JobAddModal = ({ onUpdateJob }: JobAddModalProps) => {
+  const { setApplyJobs, editingJob, setEditingJob } = useJobContext();
   const [formData, setFormData] = useState<JobApplication>({
     id: JSON.stringify(Date.now()),
     title: "",
@@ -30,9 +22,25 @@ const JobAddModal = ({
     notes: "",
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { isOpen, setIsOpen } = useJobContext();
+
+  function emptyFormData() {
+    setFormData({
+      id: "",
+      title: "",
+      company: "",
+      location: "",
+      salaryRange: "",
+      status: "",
+      appliedDate: "",
+      jobDescription: "",
+      notes: "",
+    });
+  }
 
   function handleClose() {
-    onClose(false);
+    setEditingJob(null);
+    setIsOpen(false);
   }
 
   function handleChange(value: string, identifier: string) {
@@ -65,37 +73,27 @@ const JobAddModal = ({
       return;
     }
 
-    if (jobToEdit) {
+    if (editingJob) {
       if (onUpdateJob) {
         onUpdateJob(formData);
       }
     } else {
-      onAddJob((prevJobs: JobApplicationList) => [...prevJobs, formData]);
+      setApplyJobs((prevJobs: JobApplicationList) => [...prevJobs, formData]);
     }
-    setFormData({
-      id: "",
-      title: "",
-      company: "",
-      location: "",
-      salaryRange: "",
-      status: "",
-      appliedDate: "",
-      jobDescription: "",
-      notes: "",
-    });
+    emptyFormData();
 
-    onClose(false);
+    setIsOpen(false);
   }
 
   useEffect(() => {
-    if (jobToEdit) {
-      setFormData(jobToEdit);
+    if (editingJob) {
+      setFormData(editingJob);
     }
-  }, [jobToEdit]);
+  }, [editingJob]);
 
   return (
     <>
-      {open && (
+      {isOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-gray-100 max-h-[90vh]  overflow-y-auto mx-5 md:mx-0 relative px-8 py-2 md:py-5 rounded-md w-[95%] md:w-[450px] ">
             <button
@@ -195,7 +193,7 @@ const JobAddModal = ({
               />
               <div className="flex items-center justify-center">
                 <button className="px-10 py-2  bg-green-700 text-white text-sm rounded-sm">
-                  {jobToEdit ? "Update" : "Sumit"}
+                  {editingJob ? "Update" : "Sumit"}
                 </button>
               </div>
             </form>

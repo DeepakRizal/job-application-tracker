@@ -1,19 +1,15 @@
 import { Plus } from "lucide-react";
 import type React from "react";
+import { useJobContext } from "../hooks/useJobContext";
 
 interface HeaderSectionProps {
-  onModalOpen: (value: boolean) => void;
-  isOpen: boolean;
   onStatusChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const HeaderSection = ({
-  onModalOpen,
-  isOpen,
-  onStatusChange,
-}: HeaderSectionProps) => {
+const HeaderSection = ({ onStatusChange }: HeaderSectionProps) => {
+  const { isOpen, setIsOpen } = useJobContext();
   function handleAddJob() {
-    onModalOpen(!isOpen);
+    setIsOpen(!isOpen);
   }
 
   return (

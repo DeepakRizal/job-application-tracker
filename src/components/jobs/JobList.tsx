@@ -3,12 +3,9 @@ import JobCard from "./JobCard";
 
 interface JobListProps {
   jobs: JobApplicationList;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
-  isDelete: (value: boolean) => void;
 }
 
-const JobList = ({ jobs, onEdit, onDelete, isDelete }: JobListProps) => {
+const JobList = ({ jobs }: JobListProps) => {
   return (
     <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-10">
       {jobs.length > 0 &&
@@ -25,9 +22,6 @@ const JobList = ({ jobs, onEdit, onDelete, isDelete }: JobListProps) => {
               status={job.status}
               company={job.company}
               location={job.location}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              isDelete={isDelete}
             />
           );
         })}
