@@ -25,16 +25,20 @@ export const JobProvider = ({ children }: JobProviderProps) => {
   });
 
   const filteredJobs = appliedJobs.filter((job) => {
-    const statusMatch = filters.status ? job.status === filters.status : true;
-    const searchMatch = filters.searchTerm
-      ? job.title.toLowerCase().includes(filters.searchTerm) ||
-        job.company.toLowerCase().includes(filters.searchTerm)
-      : true;
-
-    return statusMatch && searchMatch;
+    return (
+      (filters.status ? job.status === filters.status : true) &&
+      (filters.searchTerm
+        ? job.title.toLowerCase().includes(filters.searchTerm) ||
+          job.company.toLowerCase().includes(filters.searchTerm)
+        : true) &&
+      (filters.location
+        ? job.location.toLowerCase().includes(filters.location)
+        : true)
+    );
   });
 
   console.log(filteredJobs);
+
   function handleUpdateJob(updatedJob: JobApplication) {
     setApplyJobs((prevJobs) =>
       prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))

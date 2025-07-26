@@ -15,7 +15,7 @@ const HeaderSection = () => {
   ) {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [identifier]: e.target.value,
+      [identifier]: e.target.value.toLowerCase(),
     }));
   }
 
@@ -60,16 +60,28 @@ const HeaderSection = () => {
             type="text"
             className="border w-25 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
             placeholder="Location"
+            name="location"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, e.target.name)
+            }
           />
           <input
             type="number"
             className="border w-28 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
             placeholder="Min salary"
+            name="minSalary"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, e.target.name)
+            }
           />
           <input
             type="number"
             className="border w-28 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
             placeholder="Max-salary"
+            name="maxSalary"
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleChange(e, e.target.name)
+            }
           />
         </div>
       </div>
