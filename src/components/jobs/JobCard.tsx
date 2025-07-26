@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { useJobContext } from "../../hooks/useJobContext";
 
+type Status = "applied" | "interview" | "offer" | "withdrawn" | "rejected";
+
 interface JobCardProps {
   id: string;
   title: string;
@@ -17,8 +19,16 @@ interface JobCardProps {
   date: string;
   description: string;
   notes: string;
-  status: string;
+  status: Status;
 }
+
+const statusStyles: Record<Status, string> = {
+  applied: "bg-blue-100 text-blue-700 border border-blue-300",
+  interview: "bg-yellow-100 text-yellow-800 border border-yellow-300",
+  offer: "bg-green-100 text-green-700 border border-green-300",
+  withdrawn: "bg-red-100 text-red-700 border border-red-300",
+  rejected: "bg-gray-100 text-gray-700 border border-gray-300", // optional
+};
 
 const JobCard = ({
   id,
@@ -41,6 +51,8 @@ const JobCard = ({
     setDeleteJobId(id);
   }
 
+  console.log(status);
+
   return (
     <div className="flex flex-col justify-between gap-4 border border-gray-200 shadow-sm rounded-xl p-5 w-full max-w-sm bg-white">
       {/* Header Row */}
@@ -49,7 +61,13 @@ const JobCard = ({
           <h2 className="text-xl font-semibold text-gray-800 capitalize">
             {title}
           </h2>
-          <p className="text-sm text-gray-500 capitalize">{status}</p>
+          <span
+            className={`text-sm ${
+              statusStyles[status] ?? "bg-gray-100 text-gray-600"
+            } capitalize`}
+          >
+            {status}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <button
