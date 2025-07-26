@@ -11,6 +11,16 @@ export interface JobApplication {
 }
 
 export type JobApplicationList = JobApplication[];
+
+export interface filters {
+  status: string;
+  searchTerm: string;
+  location: string;
+  minSalary: number;
+  maxSalary: number;
+  dateApplied: string;
+}
+
 // Type for context value
 export interface JobContextType {
   appliedJobs: JobApplicationList;
@@ -26,7 +36,6 @@ export interface JobContextType {
   handleEdit: (value: string) => void;
   filteredJobs: JobApplicationList;
   handleUpdateJob: (value: JobApplication) => void;
-  setStatusFilter: (value: string | null) => void;
-  searchTerm: string;
-  setSearchTerm: (value: string) => void;
+  filters: filters;
+  setFilters: React.Dispatch<React.SetStateAction<filters>>;
 }

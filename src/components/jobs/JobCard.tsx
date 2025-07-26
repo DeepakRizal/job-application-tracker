@@ -42,44 +42,57 @@ const JobCard = ({
   }
 
   return (
-    <div className="flex border border-gray-300 shadow-md rounded-md justify-between  items-start px-5 py-8">
-      <div className="space-y-2">
-        <h2 className="text-2xl text-gray-800 font-bold">{title}</h2>
-        <div className="flex text-gray-500 text-[12px] items-center justify-between">
-          <div className="flex  items-center justify-center">
-            <Building2 height={15} />
-            <span>{company}</span>
-          </div>
-          <div className="flex  items-center justify-center">
-            <MapPin height={15} />
-            <span>{location}</span>
-          </div>
+    <div className="flex flex-col justify-between gap-4 border border-gray-200 shadow-sm rounded-xl p-5 w-full max-w-sm bg-white">
+      {/* Header Row */}
+      <div className="flex items-start justify-between">
+        <div>
+          <h2 className="text-xl font-semibold text-gray-800 capitalize">
+            {title}
+          </h2>
+          <p className="text-sm text-gray-500 capitalize">{status}</p>
         </div>
-
-        <div className="flex items-center text-gray-500  text-[12px] justify-between">
-          <div className="flex  items-center justify-center">
-            <DollarSign height={15} />
-            <span> {salary}</span>
-          </div>
-          <div className="flex  items-center justify-center">
-            <Calendar height={15} />
-            <span>Applied: {date}</span>
-          </div>
-        </div>
-        <p className="text-[15px] text-gray-700">{description}</p>
-        <div className="bg-gray-300 p-2 rounded-md">
-          <p className="text-[15px] text-gray-900">{notes}</p>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleEditClick}
+            className="text-gray-500 hover:text-emerald-600"
+          >
+            <Edit size={18} />
+          </button>
+          <button
+            onClick={handleDeleteClick}
+            className="text-gray-500 hover:text-red-500"
+          >
+            <Trash2 size={18} />
+          </button>
         </div>
       </div>
 
-      <div className="flex items-center gap-6">
-        <p>{status}</p>
-        <button onClick={handleEditClick}>
-          <Edit />
-        </button>
-        <button onClick={handleDeleteClick}>
-          <Trash2 />
-        </button>
+      {/* Job Info Grid */}
+      <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+        <div className="flex items-center gap-1">
+          <Building2 size={14} />
+          <span>{company}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <MapPin size={14} />
+          <span>{location}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <DollarSign size={14} />
+          <span>{salary}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <Calendar size={14} />
+          <span>Applied: {date}</span>
+        </div>
+      </div>
+
+      {/* Description */}
+      <p className="text-sm text-gray-700 leading-relaxed">{description}</p>
+
+      {/* Notes */}
+      <div className="bg-gray-100 rounded-md px-3 py-2 text-sm text-gray-800">
+        {notes}
       </div>
     </div>
   );

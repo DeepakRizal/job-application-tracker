@@ -16,14 +16,20 @@ export const JobProvider = ({ children }: JobProviderProps) => {
   const [isDelete, setIsDelete] = useState(false);
   const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
 
-  const [statusFilter, setStatusFilter] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [filters, setFilters] = useState({
+    status: "",
+    searchTerm: "",
+    location: "",
+    minSalary: 0,
+    maxSalary: Infinity,
+    dateApplied: "", // or maybe sort by date?
+  });
 
   const filteredJobs = appliedJobs.filter((job) => {
-    const statusMatch = statusFilter ? job.status === statusFilter : true;
-    const searchMatch = searchTerm
-      ? job.title.toLowerCase().includes(searchTerm) ||
-        job.company.toLowerCase().includes(searchTerm)
+    const statusMatch = filters.status ? job.status === filters.status : true;
+    const searchMatch = filters.searchTerm
+      ? job.title.toLowerCase().includes(filters.searchTerm) ||
+        job.company.toLowerCase().includes(filters.searchTerm)
       : true;
 
     return statusMatch && searchMatch;
@@ -62,9 +68,8 @@ export const JobProvider = ({ children }: JobProviderProps) => {
     handleEdit,
     filteredJobs,
     handleUpdateJob,
-    setStatusFilter,
-    searchTerm,
-    setSearchTerm,
+    filters,
+    setFilters,
   };
 
   return (
