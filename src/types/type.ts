@@ -27,4 +27,6 @@ export interface JobContextType {
   filteredJobs: JobApplicationList;
   handleUpdateJob: (value: JobApplication) => void;
   setStatusFilter: (value: string | null) => void;
+  searchTerm: string;
+  setSearchTerm: (value: string) => void;
 }

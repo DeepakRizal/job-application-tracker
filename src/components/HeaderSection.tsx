@@ -3,13 +3,15 @@ import type React from "react";
 import { useJobContext } from "../hooks/useJobContext";
 
 const HeaderSection = () => {
-  const { isOpen, setIsOpen, setStatusFilter } = useJobContext();
+  const { isOpen, setIsOpen, setStatusFilter, setSearchTerm, searchTerm } =
+    useJobContext();
+
   function handleAddJob() {
     setIsOpen(!isOpen);
   }
 
   return (
-    <div className="mt-5 flex flex-col md:flex-row justify-center md:justify-between flex-wrap gap-5 md:gap-10 items-center px-5 md:px-14">
+    <div className="mt-5 flex font-jost flex-col md:flex-row justify-center md:justify-between flex-wrap gap-5 md:gap-10 items-center px-5 md:px-14">
       <button
         className=" w-full md:w-auto bg-emerald-500 cursor-pointer flex items-center justify-center px-2 md:px-4 py-1.5 gap-5 md:gap-10 text-white rounded-sm"
         onClick={handleAddJob}
@@ -22,10 +24,9 @@ const HeaderSection = () => {
           placeholder="Search by job title, company"
           className="border border-gray-300 outline-none flex-2/3 rounded-md px-1.5 md:px-3 py-1.5"
           type="text"
+          onChange={(e) => setSearchTerm(e.target.value.trim().toLowerCase())}
+          value={searchTerm}
         />
-        <button className="bg-gray-300 px-3 py-1.5 rounded-md cursor-pointer">
-          Search
-        </button>
       </div>
       <div className="w-full md:w-auto">
         <select

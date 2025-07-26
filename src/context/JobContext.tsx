@@ -17,11 +17,19 @@ export const JobProvider = ({ children }: JobProviderProps) => {
   const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
 
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const filteredJobs = statusFilter
-    ? appliedJobs.filter((job) => job.status === statusFilter)
-    : appliedJobs;
+  const filteredJobs = appliedJobs.filter((job) => {
+    const statusMatch = statusFilter ? job.status === statusFilter : true;
+    const searchMatch = searchTerm
+      ? job.title.toLowerCase().includes(searchTerm) ||
+        job.company.toLowerCase().includes(searchTerm)
+      : true;
 
+    return statusMatch && searchMatch;
+  });
+
+  console.log(filteredJobs);
   function handleUpdateJob(updatedJob: JobApplication) {
     setApplyJobs((prevJobs) =>
       prevJobs.map((job) => (job.id === updatedJob.id ? updatedJob : job))
@@ -40,25 +48,27 @@ export const JobProvider = ({ children }: JobProviderProps) => {
     localStorage.setItem("appliedJobs", JSON.stringify(appliedJobs));
   }, [appliedJobs]);
 
+  const jobContextValue = {
+    appliedJobs,
+    setApplyJobs,
+    isOpen,
+    setIsOpen,
+    editingJob,
+    setEditingJob,
+    isDelete,
+    setIsDelete,
+    deleteJobId,
+    setDeleteJobId,
+    handleEdit,
+    filteredJobs,
+    handleUpdateJob,
+    setStatusFilter,
+    searchTerm,
+    setSearchTerm,
+  };
+
   return (
-    <jobContext.Provider
-      value={{
-        appliedJobs,
-        setApplyJobs,
-        isOpen,
-        setIsOpen,
-        editingJob,
-        setEditingJob,
-        isDelete,
-        setIsDelete,
-        deleteJobId,
-        setDeleteJobId,
-        handleEdit,
-        filteredJobs,
-        handleUpdateJob,
-        setStatusFilter,
-      }}
-    >
+    <jobContext.Provider value={jobContextValue}>
       {children}
     </jobContext.Provider>
   );
