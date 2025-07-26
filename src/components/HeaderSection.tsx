@@ -28,10 +28,10 @@ const HeaderSection = () => {
         <span className="text-[14px] md:text-lg">Add job</span>
         <Plus />
       </button>
-      <div className=" w-full md:w-auto flex-2/3  flex items-center gap-3 md:gap-5 ">
+      <div className=" w-full md:w-auto flex- flex items-center gap-3 md:gap-5 ">
         <input
           placeholder="Search by job title, company"
-          className="border border-gray-300 outline-none flex-2/3 rounded-md px-1.5 md:px-3 py-1.5"
+          className="border w-full md:w-[300px]  border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
           type="text"
           name="searchTerm"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -40,7 +40,7 @@ const HeaderSection = () => {
           value={filters.searchTerm}
         />
       </div>
-      <div className="w-full md:w-auto">
+      <div className="w-full flex flex-col   gap-5 md:flex-row md:w-auto">
         <select
           className="border  w-full md:w-auto font-poppin py-1.5 px-1  md:py-1 md:px-3 rounded-sm border-gray-400"
           name="status"
@@ -55,6 +55,23 @@ const HeaderSection = () => {
           <option value="offer">Offer</option>
           <option value="withdrawn">Withdrawn</option>
         </select>
+        <div className="flex  gap-5 flex-wrap md:w-auto">
+          <input
+            type="text"
+            className="border w-25 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
+            placeholder="Location"
+          />
+          <input
+            type="number"
+            className="border w-28 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
+            placeholder="Min salary"
+          />
+          <input
+            type="number"
+            className="border w-28 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
+            placeholder="Max-salary"
+          />
+        </div>
       </div>
     </div>
   );

@@ -23,11 +23,16 @@ interface JobCardProps {
 }
 
 const statusStyles: Record<Status, string> = {
-  applied: "bg-blue-100 text-blue-700 border border-blue-300",
-  interview: "bg-yellow-100 text-yellow-800 border border-yellow-300",
-  offer: "bg-green-100 text-green-700 border border-green-300",
-  withdrawn: "bg-red-100 text-red-700 border border-red-300",
-  rejected: "bg-gray-100 text-gray-700 border border-gray-300", // optional
+  applied:
+    "bg-blue-100 text-blue-700 px-3 py-[3px] border rounded-md border-blue-300",
+  interview:
+    "bg-yellow-100 text-yellow-800 px-3 py-[3px] border rounded-md border-yellow-300",
+  offer:
+    "bg-green-100 text-green-700 px-3 py-[3px] border rounded-md border-green-300",
+  withdrawn:
+    "bg-red-100 text-red-700 px-3 py-[3px] border rounded-md border-red-300",
+  rejected:
+    "bg-gray-100 text-gray-700 px-3 py-[3px] border rounded-md border-gray-300",
 };
 
 const JobCard = ({

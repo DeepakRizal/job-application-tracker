@@ -18,9 +18,7 @@ export interface filters {
   location: string;
   minSalary: number;
   maxSalary: number;
-  dateApplied: string;
 }
-
 // Type for context value
 export interface JobContextType {
   appliedJobs: JobApplicationList;

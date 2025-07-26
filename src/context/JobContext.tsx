@@ -22,7 +22,6 @@ export const JobProvider = ({ children }: JobProviderProps) => {
     location: "",
     minSalary: 0,
     maxSalary: Infinity,
-    dateApplied: "", // or maybe sort by date?
   });
 
   const filteredJobs = appliedJobs.filter((job) => {
