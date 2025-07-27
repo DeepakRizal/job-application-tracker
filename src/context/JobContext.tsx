@@ -28,8 +28,6 @@ export const JobProvider = ({ children }: JobProviderProps) => {
     maxSalary: Infinity,
   });
 
-  console.log(appliedJobs);
-
   const filteredJobs = appliedJobs.filter((job) => {
     const [min, max] = job.salaryRange
       .replace(/\$/g, "")

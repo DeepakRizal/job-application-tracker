@@ -1,9 +1,24 @@
+import React, { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
-import type React from "react";
 import { useJobContext } from "../hooks/useJobContext";
+import { useDebounce } from "../hooks/useDebounce";
 
 const HeaderSection = () => {
-  const { isOpen, setIsOpen, filters, setFilters } = useJobContext();
+  const { isOpen, setIsOpen, setFilters } = useJobContext();
+
+  const [localFilters, setLocalFilters] = useState({
+    searchTerm: "",
+    minSalary: "",
+    maxSalary: "",
+    location: "",
+  });
+
+  const debouncedSearch = useDebounce(localFilters.searchTerm, 500);
+  const debouncedMinSalary = useDebounce(localFilters.minSalary, 500);
+  const debouncedMaxSalary = useDebounce(localFilters.maxSalary, 500);
+  const debounceLocation = useDebounce(localFilters.location, 500);
+
+  console.log(debouncedSearch);
 
   function handleAddJob() {
     setIsOpen(!isOpen);
@@ -13,16 +28,39 @@ const HeaderSection = () => {
     e: React.ChangeEvent<T>,
     identifier: string
   ) {
-    const value =
-      identifier === "minSalary" || identifier === "maxSalary"
-        ? Number(e.target.value) || (identifier === "minSalary" ? 0 : Infinity)
-        : e.target.value.toLowerCase();
+    const value = e.target.value;
 
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [identifier]: value,
-    }));
+    if (
+      identifier === "searchTerm" ||
+      identifier === "minSalary" ||
+      identifier === "maxSalary" ||
+      identifier === "location"
+    ) {
+      setLocalFilters((prev) => ({ ...prev, [identifier]: value }));
+    } else {
+      setFilters((prevFilters) => ({
+        ...prevFilters,
+        [identifier]: identifier === "status" ? value : value.toLowerCase(),
+      }));
+    }
   }
+
+  // Apply debounced values to central filters
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      searchTerm: debouncedSearch.toLowerCase(),
+      minSalary: Number(debouncedMinSalary) || 0,
+      maxSalary: Number(debouncedMaxSalary) || Infinity,
+      location: debounceLocation.toLowerCase(),
+    }));
+  }, [
+    debouncedSearch,
+    debouncedMinSalary,
+    debouncedMaxSalary,
+    setFilters,
+    debounceLocation,
+  ]);
 
   return (
     <div className="mt-24 flex font-jost flex-col md:flex-row justify-center md:justify-between flex-wrap gap-5 md:gap-10 items-center px-5 md:px-14">
@@ -39,20 +77,15 @@ const HeaderSection = () => {
           className="border w-full md:w-[300px]  border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
           type="text"
           name="searchTerm"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleChange(e, e.target.name)
-          }
-          value={filters.searchTerm}
+          onChange={(e) => handleChange(e, e.target.name)}
+          value={localFilters.searchTerm}
         />
       </div>
       <div className="w-full flex flex-col   gap-5 md:flex-row md:w-auto">
         <select
-          className="border  w-full md:w-auto font-poppin py-1.5 px-1  md:py-1 md:px-3 rounded-sm border-gray-400"
+          className="border  border-gray-300 w-full md:w-auto font-poppin text-gray-700 py-1.5 px-1  md:py-1 md:px-3 rounded-sm "
           name="status"
-          id="all-status"
-          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            handleChange(e, e.target.name)
-          }
+          onChange={(e) => handleChange(e, e.target.name)}
         >
           <option value="">Select Filter</option>
           <option value="applied">Applied</option>
@@ -66,27 +99,23 @@ const HeaderSection = () => {
             className="border w-25 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
             placeholder="Location"
             name="location"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(e, e.target.name)
-            }
+            onChange={(e) => handleChange(e, e.target.name)}
           />
           <input
             type="number"
             className="border w-28 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
             placeholder="Min salary"
             name="minSalary"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(e, e.target.name)
-            }
+            onChange={(e) => handleChange(e, e.target.name)}
+            value={localFilters.minSalary}
           />
           <input
             type="number"
             className="border w-28 border-gray-300 outline-none rounded-md px-1.5 md:px-3 py-1.5"
             placeholder="Max-salary"
             name="maxSalary"
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              handleChange(e, e.target.name)
-            }
+            onChange={(e) => handleChange(e, e.target.name)}
+            value={localFilters.maxSalary}
           />
         </div>
       </div>

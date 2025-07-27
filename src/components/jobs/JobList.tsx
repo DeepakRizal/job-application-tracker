@@ -4,7 +4,7 @@ import JobCard from "./JobCard";
 const JobList = () => {
   const { filteredJobs } = useJobContext();
   return (
-    <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-10">
+    <div className=" py-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mx-10">
       {filteredJobs.length > 0 &&
         filteredJobs.map((job) => {
           return (
