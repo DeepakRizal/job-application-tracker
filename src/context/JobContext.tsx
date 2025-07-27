@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import type { JobApplication, JobApplicationList } from "../types/type";
+import type {
+  Filters,
+  JobApplication,
+  JobApplicationList,
+} from "../types/type";
 import { jobContext } from "./jobContext";
 
 interface JobProviderProps {
@@ -16,7 +20,7 @@ export const JobProvider = ({ children }: JobProviderProps) => {
   const [isDelete, setIsDelete] = useState(false);
   const [deleteJobId, setDeleteJobId] = useState<string | null>(null);
 
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Filters>({
     status: "",
     searchTerm: "",
     location: "",
@@ -24,7 +28,14 @@ export const JobProvider = ({ children }: JobProviderProps) => {
     maxSalary: Infinity,
   });
 
+  console.log(appliedJobs);
+
   const filteredJobs = appliedJobs.filter((job) => {
+    const [min, max] = job.salaryRange
+      .replace(/\$/g, "")
+      .split("-")
+      .map((val) => Number(val.replace(/,/g, "")));
+
     return (
       (filters.status ? job.status === filters.status : true) &&
       (filters.searchTerm
@@ -33,11 +44,11 @@ export const JobProvider = ({ children }: JobProviderProps) => {
         : true) &&
       (filters.location
         ? job.location.toLowerCase().includes(filters.location)
-        : true)
+        : true) &&
+      min >= filters.minSalary &&
+      max <= filters.maxSalary
     );
   });
-
-  console.log(filteredJobs);
 
   function handleUpdateJob(updatedJob: JobApplication) {
     setApplyJobs((prevJobs) =>

@@ -7,8 +7,7 @@ import {
   DollarSign,
 } from "lucide-react";
 import { useJobContext } from "../../hooks/useJobContext";
-
-type Status = "applied" | "interview" | "offer" | "withdrawn" | "rejected";
+import type { Status } from "../../types/type";
 
 interface JobCardProps {
   id: string;
@@ -55,8 +54,6 @@ const JobCard = ({
     setIsDelete(true);
     setDeleteJobId(id);
   }
-
-  console.log(status);
 
   return (
     <div className="flex flex-col justify-between gap-4 border border-gray-200 shadow-sm rounded-xl p-5 w-full max-w-sm bg-white">

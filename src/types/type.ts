@@ -1,10 +1,17 @@
+export type Status =
+  | "applied"
+  | "interview"
+  | "offer"
+  | "withdrawn"
+  | "rejected";
+
 export interface JobApplication {
   id: string;
   title: string;
   company: string;
   location: string;
   salaryRange: string;
-  status: string;
+  status: Status | "";
   appliedDate: string;
   jobDescription: string;
   notes: string;
@@ -12,8 +19,8 @@ export interface JobApplication {
 
 export type JobApplicationList = JobApplication[];
 
-export interface filters {
-  status: string;
+export interface Filters {
+  status: Status | "";
   searchTerm: string;
   location: string;
   minSalary: number;
@@ -34,6 +41,6 @@ export interface JobContextType {
   handleEdit: (value: string) => void;
   filteredJobs: JobApplicationList;
   handleUpdateJob: (value: JobApplication) => void;
-  filters: filters;
-  setFilters: React.Dispatch<React.SetStateAction<filters>>;
+  filters: Filters;
+  setFilters: React.Dispatch<React.SetStateAction<Filters>>;
 }

@@ -16,7 +16,7 @@ const JobList = () => {
               salary={job.salaryRange}
               date={job.appliedDate}
               notes={job.notes}
-              status={job.status}
+              status={job.status || "applied"}
               company={job.company}
               location={job.location}
             />

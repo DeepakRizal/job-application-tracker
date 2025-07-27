@@ -13,9 +13,14 @@ const HeaderSection = () => {
     e: React.ChangeEvent<T>,
     identifier: string
   ) {
+    const value =
+      identifier === "minSalary" || identifier === "maxSalary"
+        ? Number(e.target.value) || (identifier === "minSalary" ? 0 : Infinity)
+        : e.target.value.toLowerCase();
+
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [identifier]: e.target.value.toLowerCase(),
+      [identifier]: value,
     }));
   }
 
