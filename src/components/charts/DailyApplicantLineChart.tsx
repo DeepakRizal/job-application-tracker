@@ -11,6 +11,7 @@ import {
 interface DailyJobApply {
   date: string;
   count: number;
+  originalDate: string;
 }
 
 interface DailyApplicantLineChartProps {

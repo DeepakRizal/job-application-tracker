@@ -15,7 +15,17 @@ const Analytics = () => {
     value: count,
   }));
 
-  const appliedJobsPerDate = appliedJobs
+  const today = new Date();
+  const sevenDaysAgo = new Date(today);
+  sevenDaysAgo.setDate(today.getDate() - 7);
+
+  const recentApplication = appliedJobs.filter((job) => {
+    const jobDate = new Date(job.appliedDate);
+
+    return job.status === "applied" && jobDate >= sevenDaysAgo;
+  });
+
+  const appliedJobsPerDate = recentApplication
     .filter((job) => job.status === "applied")
     .reduce((acc: Record<string, number>, job) => {
       acc[job.appliedDate] = (acc[job.appliedDate] || 0) + 1;
@@ -23,10 +33,19 @@ const Analytics = () => {
     }, {});
 
   const appliedDateData = Object.entries(appliedJobsPerDate).map(
-    ([date, count]) => ({
-      date,
-      count,
-    })
+    ([date, count]) => {
+      const dateFormat = date.split("-").slice(1).join("-");
+      return {
+        originalDate: date,
+        date: dateFormat,
+        count,
+      };
+    }
+  );
+
+  appliedDateData.sort(
+    (a, b) =>
+      new Date(a.originalDate).getTime() - new Date(b.originalDate).getTime()
   );
 
   return (
