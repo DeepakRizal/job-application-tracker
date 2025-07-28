@@ -1,5 +1,4 @@
-import { PieChart } from "lucide-react";
-import { Cell, Legend, Pie, Tooltip } from "recharts";
+import { PieChart, Cell, Legend, Pie, Tooltip } from "recharts";
 
 interface statusData {
   name: string;
