@@ -1,17 +1,5 @@
-import {
-  CartesianGrid,
-  Cell,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+import StatusPieChart from "./charts/StatusPieChart";
+import DailyApplicantLineChart from "./charts/DailyApplicantLineChart";
 
 const jobList = [
   {
@@ -433,8 +421,6 @@ const appliedJobsPerDate = jobList
     return acc;
   }, {});
 
-console.log(appliedJobsPerDate);
-
 const appliedDateData = Object.entries(appliedJobsPerDate).map(
   ([date, count]) => ({
     date,
@@ -447,37 +433,8 @@ console.log(appliedDateData);
 const Analytics = () => {
   return (
     <div className="py-6 mx-10 flex flex-col gap-5 md:flex-row flex-wrap items-center justify-center ">
-      <PieChart width={400} height={300}>
-        <Pie
-          data={data}
-          dataKey="value"
-          nameKey="name"
-          cx="50%"
-          cy="50%"
-          outerRadius={100}
-          fill="#8884d8"
-          label
-        >
-          {data.map((_, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
-      </PieChart>
-      <LineChart
-        width={730}
-        height={250}
-        data={appliedDateData}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis allowDecimals={false} />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="count" stroke="#8884d8" />
-      </LineChart>
+      <StatusPieChart data={data} />
+      <DailyApplicantLineChart appliedDateData={appliedDateData} />
     </div>
   );
 };
