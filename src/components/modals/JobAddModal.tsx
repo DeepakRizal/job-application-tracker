@@ -91,7 +91,7 @@ const JobAddModal = () => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
+        <div className="fixed z-50 inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-gray-100 max-h-[90vh]  overflow-y-auto mx-5 md:mx-0 relative px-8 py-2 md:py-5 rounded-md w-[95%] md:w-[450px] ">
             <button
               onClick={handleClose}
