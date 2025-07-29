@@ -12,6 +12,7 @@ interface JobProviderProps {
 
 export const JobProvider = ({ children }: JobProviderProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [appliedJobs, setApplyJobs] = useState<JobApplicationList>(() => {
     const jobs = JSON.parse(localStorage.getItem("appliedJobs") || "[]");
     return jobs;
@@ -82,6 +83,8 @@ export const JobProvider = ({ children }: JobProviderProps) => {
     handleUpdateJob,
     filters,
     setFilters,
+    showMobileFilters,
+    setShowMobileFilters,
   };
 
   return (

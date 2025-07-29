@@ -43,4 +43,6 @@ export interface JobContextType {
   handleUpdateJob: (value: JobApplication) => void;
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+  showMobileFilters: boolean;
+  setShowMobileFilters: (value: boolean) => void;
 }
